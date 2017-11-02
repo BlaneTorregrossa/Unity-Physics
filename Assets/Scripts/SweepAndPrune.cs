@@ -26,8 +26,25 @@ public class SweepAndPrune : MonoBehaviour
     {
         ActiveList.Clear();
 
-        AxisList.Add(itemA); AxisList.Add(itemB);
-        AxisList.Add(itemC); AxisList.Add(itemD);
+        if(cubeA.activeSelf == true)
+        {
+            AxisList.Add(itemA);
+        }
+
+        if (cubeB.activeSelf == true)
+        {
+            AxisList.Add(itemB);
+        }
+
+        if (cubeC.activeSelf == true)
+        {
+            AxisList.Add(itemC);
+        }
+
+        if (cubeD.activeSelf == true)
+        {
+            AxisList.Add(itemD);
+        }
 
         //StartSort();
         //or
