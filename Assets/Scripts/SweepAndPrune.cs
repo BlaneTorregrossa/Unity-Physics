@@ -8,68 +8,65 @@ public class Pair
     public AABB leftObject;
 }
 
-
 public class SweepAndPrune : MonoBehaviour
 {
     public List<AABB> AxisList;
     public List<AABB> ActiveList;
 
-    public AABB objectA;
-    public AABB objectB;
-    public AABB objectC;
-    public AABB objectD;
+    public AABB itemA; public AABB itemB; public AABB itemC; public AABB itemD;
+    public GameObject cubeA; public GameObject cubeB; public GameObject cubeC; public GameObject cubeD;
+
+    public AABB newItem;
+    public AABB currentItem;
 
     private float currentMin;
     private float prevMin;
 
     void Start()
     {
-        objectA.min.x = 1; objectA.max.x = 4;
-        objectB.min.x = 0; objectB.max.x = 3;
-        objectC.min.x = 3; objectC.max.x = 4;
-        objectD.min.x = 2; objectD.max.x = 3;
+        ActiveList.Clear();
 
-        AxisList.Add(objectA); AxisList.Add(objectB);
-        AxisList.Add(objectC); AxisList.Add(objectD);
-        StartSort();
+        AxisList.Add(itemA); AxisList.Add(itemB);
+        AxisList.Add(itemC); AxisList.Add(itemD);
+
+        //StartSort();
+        //or
+        AxisList.Sort((AABB a, AABB b) => a.min.x.CompareTo(b.min.x));
+
     }
 
     void Update()
     {
-        SortAndSweep();
+        SortAndPrune();
     }
 
-    void StartSort()
-    {
-        for (int i = 0; i < 4; i++)
-        {
-            currentMin = AxisList[i].min.x;
-            if (currentMin < prevMin)
-            {
-                AABB temp;
-                temp = AxisList[i - 1];
-                AxisList[i - 1] = AxisList[i];
-                AxisList[i] = temp;
-            }
-            prevMin = currentMin;
-        }
-        Debug.Log("Index 0 xMin: " + AxisList[0].min.x.ToString());
-        Debug.Log("Index 1 xMin: " + AxisList[1].min.x.ToString());
-        Debug.Log("Index 2 xMin: " + AxisList[2].min.x.ToString());
-        Debug.Log("Index 3 xMin: " + AxisList[3].min.x.ToString());
-    }
+    // Sorts list from lowest x axis min to highest x axis min
+    //void StartSort()
+    //{
+    //    for (int i = 0; i < 4; i++)
+    //    {
+    //        currentMin = AxisList[i].min.x;
+    //        if (currentMin < prevMin)
+    //        {
+    //            AABB temp;
+    //            temp = AxisList[i - 1];
+    //            AxisList[i - 1] = AxisList[i];
+    //            AxisList[i] = temp;
+    //        }
+    //        prevMin = currentMin;
+    //    }
+    //    Debug.Log("Index 0 xMin: " + AxisList[0].min.x.ToString());
+    //    Debug.Log("Index 1 xMin: " + AxisList[1].min.x.ToString());
+    //    Debug.Log("Index 2 xMin: " + AxisList[2].min.x.ToString());
+    //    Debug.Log("Index 3 xMin: " + AxisList[3].min.x.ToString());
+    //}
 
-    void SortAndSweep()
+    void SortAndPrune()
     {
-        for(int i = 0; i < 4; ++i)
+        for (int i = 0; i < 4; ++i)
         {
-            ActiveList.Add(AxisList[i]);
             for (int j = 0; j < 4; j++)
             {
-                if (AxisList[i + 1] == ActiveList[j])
-                {
-                    Debug.Log("Overlap!");
-                }
 
             }
         }
