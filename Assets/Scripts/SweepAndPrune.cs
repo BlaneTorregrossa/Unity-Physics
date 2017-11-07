@@ -11,9 +11,9 @@ public class Pair   // Object that keeps two objects of type AABB as a designate
 
 public class SweepAndPrune : MonoBehaviour
 {
-    public List<AABB> AxisList;
-    public List<AABB> ActiveList;
-    public List<Pair> PairList;
+    public List<AABB> AxisList;     // Starting List
+    public List<AABB> ActiveList;   // List after order is set
+    public List<Pair> PairList;     // List for AABB pairs
 
     public AABB itemA, itemB, itemC, itemD; // items for list
     public GameObject cubeA, cubeB, cubeC, cubeD;   // objects paired with items
@@ -23,8 +23,6 @@ public class SweepAndPrune : MonoBehaviour
     public AABB currentItem;    // for comparison
     public Pair newPair;    // for adding a pair to the list
 
-    public SortEvent Event;
-
     private float currentMin; // for sort function
     private float prevMin;  // for sort function
     private int count;  // for while loops
@@ -32,19 +30,23 @@ public class SweepAndPrune : MonoBehaviour
 
     void Start()
     {
+        //Clear the lists
         AxisList.Clear();
         ActiveList.Clear();
         PairList.Clear();
-
+        
+        // setting to 0, false, null
         check = false;
         count = 0;
         currentItem = null;
 
+        // Filling PairList
         PairList.Add(pairA);
         PairList.Add(pairB);
         PairList.Add(pairC);
         PairList.Add(pairD);
 
+        // Adds values to axis list
         if (cubeA.activeSelf == true && cubeB.activeSelf == true && cubeC.activeSelf == true && cubeD.activeSelf == true)
         {
             AxisList.Add(itemA);
@@ -60,6 +62,7 @@ public class SweepAndPrune : MonoBehaviour
         Debug.Log("Axis List: " + AxisList.ToString());
     }
 
+    // Sorting function is the only thing to be called right now
     void Update()
     {
         SortAndPrune();
@@ -87,12 +90,12 @@ public class SweepAndPrune : MonoBehaviour
     }
 
     /// <summary>
-    /// Bad, but better
-    /// Sets pairs but not in an order good for "collision"
+    /// Bad, but better.
+    /// Sets pairs but not in an order good for "collision."
     /// Current Result: [][AB][AD][CD]
     /// Should Be: [AB][CB][AD][CD]
     /// </summary>
-    void SortAndPrune()
+    public void SortAndPrune()
     {
         if (check != true)
         {
@@ -118,6 +121,7 @@ public class SweepAndPrune : MonoBehaviour
 
         while (count != 4)
         {
+            currentItem = newItem;
             newItem = ActiveList[count];
             newPair = PairList[count];
 
@@ -147,51 +151,50 @@ public class SweepAndPrune : MonoBehaviour
                 }
             }
 
-            else if (currentItem.min.x > newItem.min.x && currentItem.max.x >= newItem.max.x)
-            {
-                if (((newItem.min.y > currentItem.min.y && newItem.max.y >= currentItem.max.y)) || (currentItem.min.y > newItem.min.y && currentItem.max.y >= newItem.max.y))
-                {
-                    newPair.leftObject = newItem;
-                    newPair.rightObject = currentItem;
-                }
-            }
+            //else if (currentItem.min.x > newItem.min.x && currentItem.max.x >= newItem.max.x)
+            //{
+            //    if (((newItem.min.y > currentItem.min.y && newItem.max.y >= currentItem.max.y)) || (currentItem.min.y > newItem.min.y && currentItem.max.y >= newItem.max.y))
+            //    {
+            //        newPair.leftObject = newItem;
+            //        newPair.rightObject = currentItem;
+            //    }
+            //}
 
-            else if(currentItem.min.x >= newItem.min.x && currentItem.max.x <= newItem.max.x)
-            {
-                if(currentItem.min.y >= newItem.min.y && currentItem.max.y <= newItem.max.y)
-                {
-                    newPair.leftObject = currentItem;
-                    newPair.rightObject = newItem;
-                }
-            }
+            //else if (currentItem.min.x >= newItem.min.x && currentItem.max.x <= newItem.max.x)
+            //{
+            //    if (currentItem.min.y >= newItem.min.y && currentItem.max.y <= newItem.max.y)
+            //    {
+            //        newPair.leftObject = currentItem;
+            //        newPair.rightObject = newItem;
+            //    }
+            //}
 
             // EVEN WORSE (Consider scrapping this)
             if (count == 0)
             {
-                pairA = newPair;
-                PairList[0] = pairA;
+                //pairA = newPair;
+                PairList[0] = newPair;
             }
 
             if (count == 1)
             {
-                pairB = newPair;
-                PairList[1] = pairB;
+                //pairB = newPair;
+                PairList[1] = newPair;
             }
 
             if (count == 2)
             {
-                pairC = newPair;
-                PairList[2] = pairC;
+                //pairC = newPair;
+                PairList[2] = newPair;
             }
 
             if (count == 3)
             {
-                pairD = newPair;
-                PairList[3] = pairD;
+                //pairD = newPair;
+                PairList[3] = newPair;
             }
 
             count++;
-            currentItem = newItem;
             #endregion
         }
     }

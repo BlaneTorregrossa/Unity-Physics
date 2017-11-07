@@ -281,6 +281,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1452563924}
   - component: {fileID: 1452563925}
+  - component: {fileID: 1452563923}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -288,6 +289,34 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1452563923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1452563922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7998a3eef27874c45863ea8072ef511c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: 70ec3c56c0aafe94e8f53622303a3098, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!4 &1452563924
 Transform:
   m_ObjectHideFlags: 0
@@ -314,6 +343,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AxisList: []
   ActiveList: []
+  PairList: []
   itemA: {fileID: 11400000, guid: 1f13be9454a5e7d4ebe7b5fb28018a1d, type: 2}
   itemB: {fileID: 11400000, guid: e88fec83c8ee61c4189ed72afc4e49e1, type: 2}
   itemC: {fileID: 11400000, guid: 40d0a095e13ab4c43820d514e1a1e8a6, type: 2}
@@ -322,8 +352,23 @@ MonoBehaviour:
   cubeB: {fileID: 1606504180}
   cubeC: {fileID: 1879990079}
   cubeD: {fileID: 268190437}
+  pairA:
+    rightObject: {fileID: 0}
+    leftObject: {fileID: 0}
+  pairB:
+    rightObject: {fileID: 0}
+    leftObject: {fileID: 0}
+  pairC:
+    rightObject: {fileID: 0}
+    leftObject: {fileID: 0}
+  pairD:
+    rightObject: {fileID: 0}
+    leftObject: {fileID: 0}
   newItem: {fileID: 0}
   currentItem: {fileID: 0}
+  newPair:
+    rightObject: {fileID: 0}
+    leftObject: {fileID: 0}
 --- !u!1 &1606504180
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,12 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+/// <summary>
+/// Create a GameEvent in the Project View (EX. GameStart)
+/// The GameStart.asset will have it's reference used in the project through the Listener MonoBehaviour
+/// </summary>
 [CreateAssetMenu]
-public class SortEvent : ScriptableObject
+public class SortEvent : ScriptableObject   // Using Scriptable objects for events
 {
 
+    //  List of listeners to this event
     private List<SortEventListener> listeners = new List<SortEventListener>();
 
+    //  raise the event
+    // we go backwards to ensure that callers do not cause race conditions
     public void Raise()
     {
         for (int i = listeners.Count - 1; i >= 0; i--)
@@ -17,15 +24,18 @@ public class SortEvent : ScriptableObject
         }
     }
 
+    // subscribe listener to the event, will happen when the listener becomes enabled
     public void RegisterListener(SortEventListener listener)
     {
         if(listeners.Contains(listener))
         {
-            throw new InvalidOperationException("Duplicate key");
+            throw new InvalidOperationException("Duplicate key. No listeners to be added!");
         }
+        
         listeners.Add(listener);
     }
 
+    // remove a listener, will happen when the listener object becomes disabled
     public void UnregisterListener(SortEventListener listener)
     {
         if (listeners.Contains(listener))
