@@ -8,8 +8,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4bfd383dd4a83ad45a74b1932886ff76, type: 3}
-  m_Name: Box3
+  m_Script: {fileID: 11500000, guid: f07c6208ff04f0c42b0d0ea8bae3899f, type: 3}
+  m_Name: Event
   m_EditorClassIdentifier: 
-  min: {x: 3, y: 1}
-  max: {x: 4, y: 2}

@@ -314,14 +314,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AxisList: []
   ActiveList: []
-  itemA: {fileID: 0}
-  itemB: {fileID: 0}
-  itemC: {fileID: 0}
-  itemD: {fileID: 0}
-  cubeA: {fileID: 0}
-  cubeB: {fileID: 0}
-  cubeC: {fileID: 0}
-  cubeD: {fileID: 0}
+  itemA: {fileID: 11400000, guid: 1f13be9454a5e7d4ebe7b5fb28018a1d, type: 2}
+  itemB: {fileID: 11400000, guid: e88fec83c8ee61c4189ed72afc4e49e1, type: 2}
+  itemC: {fileID: 11400000, guid: 40d0a095e13ab4c43820d514e1a1e8a6, type: 2}
+  itemD: {fileID: 11400000, guid: 854e0e497ee03ce4383ccc6f05e5b20d, type: 2}
+  cubeA: {fileID: 996125554}
+  cubeB: {fileID: 1606504180}
+  cubeC: {fileID: 1879990079}
+  cubeD: {fileID: 268190437}
   newItem: {fileID: 0}
   currentItem: {fileID: 0}
 --- !u!1 &1606504180
