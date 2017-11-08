@@ -11,5 +11,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bfd383dd4a83ad45a74b1932886ff76, type: 3}
   m_Name: Box3
   m_EditorClassIdentifier: 
-  min: {x: 3, y: 1}
-  max: {x: 4, y: 2}
+  min: {x: 2, y: 2}
+  max: {x: 3, y: 3}

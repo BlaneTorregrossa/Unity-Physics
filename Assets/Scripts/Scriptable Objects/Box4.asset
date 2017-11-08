@@ -11,5 +11,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bfd383dd4a83ad45a74b1932886ff76, type: 3}
   m_Name: Box4
   m_EditorClassIdentifier: 
-  min: {x: 2, y: 0}
-  max: {x: 3, y: 1}
+  min: {x: 3, y: 0}
+  max: {x: 4, y: 1}

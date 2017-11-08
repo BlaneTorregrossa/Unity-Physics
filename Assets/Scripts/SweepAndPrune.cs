@@ -14,9 +14,10 @@ public class SweepAndPrune : MonoBehaviour
     public List<AABB> AxisList;     // Starting List
     public List<AABB> ActiveList;   // List after order is set
     public List<Pair> PairList;     // List for AABB pairs
+    public List<GameObject> CubeList; // List for the gameobjects
 
     public AABB itemA, itemB, itemC, itemD; // items for list
-    public GameObject cubeA, cubeB, cubeC, cubeD;   // objects paired with items
+    public GameObject cubeA, cubeB, cubeC, cubeD;   // gameobjects paired with items
     public Pair pairA, pairB, pairC, pairD; // pairs for list
 
     public AABB newItem;    // for comparison
@@ -27,6 +28,9 @@ public class SweepAndPrune : MonoBehaviour
     private float prevMin;  // for sort function
     private int count;  // for while loops
     private bool check; // for if statement to be skipped after 1st call
+    private int pairPlacement;
+    private int CurrentPair;
+
 
     void Start()
     {
@@ -34,11 +38,10 @@ public class SweepAndPrune : MonoBehaviour
         AxisList.Clear();
         ActiveList.Clear();
         PairList.Clear();
-        
-        // setting to 0, false, null
+
+        pairPlacement = 0;
         check = false;
         count = 0;
-        currentItem = null;
 
         // Filling PairList
         PairList.Add(pairA);
@@ -46,7 +49,7 @@ public class SweepAndPrune : MonoBehaviour
         PairList.Add(pairC);
         PairList.Add(pairD);
 
-        // Adds values to axis list
+        #region  Adds values to axis list
         if (cubeA.activeSelf == true && cubeB.activeSelf == true && cubeC.activeSelf == true && cubeD.activeSelf == true)
         {
             AxisList.Add(itemA);
@@ -54,6 +57,7 @@ public class SweepAndPrune : MonoBehaviour
             AxisList.Add(itemC);
             AxisList.Add(itemD);
         }
+        #endregion
 
         StartSort();
         //or
@@ -83,17 +87,12 @@ public class SweepAndPrune : MonoBehaviour
             }
             prevMin = currentMin;
         }
-        Debug.Log("Index 0 xMin: " + AxisList[0].min.x.ToString());
-        Debug.Log("Index 1 xMin: " + AxisList[1].min.x.ToString());
-        Debug.Log("Index 2 xMin: " + AxisList[2].min.x.ToString());
-        Debug.Log("Index 3 xMin: " + AxisList[3].min.x.ToString());
     }
 
     /// <summary>
+    /// Current Result: [][AB][BC][]
+    /// What I Expect: [AB][AC][BC][BD]
     /// Bad, but better.
-    /// Sets pairs but not in an order good for "collision."
-    /// Current Result: [][AB][AD][CD]
-    /// Should Be: [AB][CB][AD][CD]
     /// </summary>
     public void SortAndPrune()
     {
@@ -123,79 +122,50 @@ public class SweepAndPrune : MonoBehaviour
         {
             currentItem = newItem;
             newItem = ActiveList[count];
-            newPair = PairList[count];
+            newPair = PairList[pairPlacement];
 
-            if (currentItem == null)
+            if (count > 4)
             {
-                Debug.Log("CurrentItem is set to Null.");
+                Debug.Log("Count exceeded what it is supposed to. Given value: " + count.ToString());
             }
 
-            #region Redo This
-            // BAD (Consider Redoing this)
-            else if (newItem.min.x > currentItem.min.x && newItem.max.x >= currentItem.max.x)
+            // Current check for if items overlap
+            else if (newItem.min.x < currentItem.max.x && newItem.max.x > currentItem.min.x)
             {
-                if ((newItem.min.y > currentItem.min.y && newItem.max.y >= currentItem.max.y) || (currentItem.min.y > newItem.min.y && currentItem.max.y >= newItem.max.y))
-                {
-                    newPair.leftObject = currentItem;
-                    newPair.rightObject = newItem;
-                }
-
-            }
-
-            else if (newItem.min.x >= currentItem.min.x && newItem.min.x < currentItem.max.x)
-            {
-                if (newItem.min.y >= currentItem.min.y && newItem.min.y < currentItem.max.y)
+                if (newItem.min.y < currentItem.max.y && newItem.max.y > currentItem.min.y)
                 {
                     newPair.leftObject = newItem;
                     newPair.rightObject = currentItem;
+
+                    if (newPair.leftObject == newPair.rightObject)
+                    {
+                        newPair.leftObject = null;
+                        newPair.rightObject = null;
+                    }
                 }
             }
 
-            //else if (currentItem.min.x > newItem.min.x && currentItem.max.x >= newItem.max.x)
-            //{
-            //    if (((newItem.min.y > currentItem.min.y && newItem.max.y >= currentItem.max.y)) || (currentItem.min.y > newItem.min.y && currentItem.max.y >= newItem.max.y))
-            //    {
-            //        newPair.leftObject = newItem;
-            //        newPair.rightObject = currentItem;
-            //    }
-            //}
-
-            //else if (currentItem.min.x >= newItem.min.x && currentItem.max.x <= newItem.max.x)
-            //{
-            //    if (currentItem.min.y >= newItem.min.y && currentItem.max.y <= newItem.max.y)
-            //    {
-            //        newPair.leftObject = currentItem;
-            //        newPair.rightObject = newItem;
-            //    }
-            //}
-
-            // EVEN WORSE (Consider scrapping this)
-            if (count == 0)
+            // set palcement of pairs in list
+            if (count != 4)
             {
-                //pairA = newPair;
-                PairList[0] = newPair;
+                PairList[pairPlacement] = newPair;
+
+                if (PairList[pairPlacement] == newPair)
+                {
+                    pairPlacement++;
+                }
             }
 
-            if (count == 1)
-            {
-                //pairB = newPair;
-                PairList[1] = newPair;
-            }
-
-            if (count == 2)
-            {
-                //pairC = newPair;
-                PairList[2] = newPair;
-            }
-
-            if (count == 3)
-            {
-                //pairD = newPair;
-                PairList[3] = newPair;
-            }
 
             count++;
-            #endregion
+        }
+
+    }
+
+    public void AssignCube()
+    {
+        for (int i = 0; i < 4; i++)
+        {
         }
     }
 }

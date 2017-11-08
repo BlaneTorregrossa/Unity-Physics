@@ -9,5 +9,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 917dbad0189d7f342a1b7101736b8964, type: 3}
-  m_Name: Sorting Event
+  m_Name: Game Start
   m_EditorClassIdentifier: 
+  listeners: []

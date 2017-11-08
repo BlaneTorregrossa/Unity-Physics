@@ -12,7 +12,7 @@ public class SortEvent : ScriptableObject   // Using Scriptable objects for even
 {
 
     //  List of listeners to this event
-    private List<SortEventListener> listeners = new List<SortEventListener>();
+    public List<SortEventListener> listeners = new List<SortEventListener>();
 
     //  raise the event
     // we go backwards to ensure that callers do not cause race conditions
