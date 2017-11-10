@@ -3,16 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [SerializeField]
-public abstract class Agent : ScriptableObject
+public class Agent : ScriptableObject
 {
+    public Vector3 Velocity;
+    public Vector3 Position;
 
-    public float mass;
-    public Vector3 velocity;
-    public Vector3 acceleration;
-    public Vector3 position;
-    public float Max_Speed;
-    public float perch_Timer;
-    public bool perched;
-
-
+    protected float mass;
+    protected Vector3 velocity;
+    protected Vector3 acceleration;
+    protected Vector3 force;
+    protected float Max_Speed;
 }
