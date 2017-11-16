@@ -2,49 +2,55 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Boid : Agent
+namespace Blane
 {
 
-    private Vector3 prevPos;
-    private Vector3 prevVel;
-
-    void Start()
+    public interface IMovable
     {
 
+        void Initialize(int m, int ms, Transform t);
+
+        bool Add_Force(float magnitude, Vector3 Direction);
+
+        // Update acceleration, velocity, and position
+        Vector3 Update_Agent(float deltaTime);
     }
 
-    void Update()
+
+    public class Boid : Agent, IMovable
     {
-        prevPos = force;
-        prevVel = velocity;
+
+        void IMovable.Initialize(int m, int ms, Transform t)
+        {
+            mass = m;
+            max_speed = ms;
+            velocity = new Vector3(0, 0, 0);
+            acceleration = new Vector3(0, 0, 0);
+            force = new Vector3(0, 0, 0);
+            Position = t.position;
+        }
+
+        bool IMovable.Add_Force(float magnitude, Vector3 Direction)
+        {
+            bool check;
+
+            if (magnitude != 0)
+                check = true;
+            else
+                check = false;
+
+            return check;
+        }
+
+        // Update acceleration, velocity, and position
+        Vector3 IMovable.Update_Agent(float deltaTime)
+        {
+            acceleration = force / mass;
+            velocity += acceleration * deltaTime;
+            Velocity = Vector3.ClampMagnitude(velocity, max_speed);
+            Position += Velocity * deltaTime;
+
+            return Position;
+        }
     }
-
-    public void Initialize(float m, float ms)
-    {
-        mass = m;
-        Max_Speed = ms;
-        velocity = new Vector3(Random.Range(-10, 10), Random.Range(-10, 10), 0);
-        acceleration = new Vector3(Random.Range(-10, 10), Random.Range(-10, 10), 0);
-        force = new Vector3(Random.Range(-5, 5), Random.Range(-5, 5), 0);
-    }
-
-    // Bad
-    public bool Add_Force(float c)
-    {
-        bool check = false;
-
-
-        return check;
-    }
-
-    // Update acceleration, velocity, and position
-    // From Example
-    public void Update_Agent(float deltaTime)
-    {
-        acceleration = force / mass;
-        velocity += acceleration * deltaTime;
-        Velocity = Vector3.ClampMagnitude(velocity, Max_Speed);
-        Position += velocity * deltaTime;
-    }
-
 }

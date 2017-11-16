@@ -2,56 +2,57 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// (Note: The following changes can only be applied when DTO and Behaviors are set correctlly)
-/// Changes needed (All set in a loop):
-/// remove rigidbody from GameObject    *
-/// Add the Boid Behavior as a component    
-/// set boid field in the boid behavior component
-/// add gameobject to list  *
-/// add BoidBehavior to list    *
-/// </summary>
-public class AgentFactory : MonoBehaviour
+namespace Blane
 {
 
-    private GameObject Go;
-    private List<Agent> agents;
-
-    void Start()
+    /// <summary>
+    /// Needed: 
+    /// remove rigidbody from GameObject X
+    /// Add the Boid Behavior as a component    X 
+    /// set boid field in the boid behavior component   X
+    /// add gameobject to list  X
+    /// add BoidBehavior to list    (Why???)
+    /// </summary>
+    public class AgentFactory : MonoBehaviour
     {
 
-    }
+        public List<Boid> agents;
+        public List<BoidBehavior> behaviors;
+        public List<GameObject> objects;
 
-    void Update()
-    {
-
-    }
-
-    public void CreateAgents(int count)
-    {
-        foreach (Boid b in agents)
+        // Current Issue: Every object created is at a zero'd position and attempts to fix it remove all but 1 of the objects
+        public void CreateAgents(int count)
         {
-            var go = Go;
-            var bb = go.AddComponent<BoidBehavior>();
-            var boid = ScriptableObject.CreateInstance<Boid>();
-            agents.Add(boid);
-            bb.SetMovable(boid);
 
+            for (int i = 0; i < count; i++)
+            {
+                var go = GameObject.CreatePrimitive(PrimitiveType.Capsule); // Set object to be a capsule
+                var b = ScriptableObject.CreateInstance<Boid>();
+
+                var bb = go.AddComponent<BoidBehavior>();   // Add boid behaviour as a component
+                Destroy(go.GetComponent<Rigidbody>());  // Destroy rigidbody of the gameobject
+                Destroy(go.GetComponent<CapsuleCollider>());    // Remove Default Collider
+
+                agents.Add(b);
+                bb.SetMovable(b);
+
+                bb.CallInit(go.transform);  // for position
+                objects.Add(go);    // Add objects for boids to a list
+            }
         }
-    }
 
-
-    public List<Boid> GetBoids()
-    {
-        List<Boid> result = null;
-
-        foreach (Boid b in agents)
+        public List<Boid> GetBoids()
         {
-            result.Add(b);
+            List<Boid> result = new List<Boid>();
+
+            foreach (Boid b in agents)
+            {
+                result.Add(b);
+            }
+
+            return result;
         }
 
-        return result;
     }
-
 
 }

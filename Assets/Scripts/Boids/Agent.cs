@@ -2,15 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[SerializeField]
-public class Agent : ScriptableObject
+namespace Blane
 {
-    public Vector3 Velocity;
-    public Vector3 Position;
+    [CreateAssetMenu]
+    public abstract class Agent : ScriptableObject
+    {
+        public Vector3 Velocity;
+        public Vector3 Position;
 
-    protected float mass;
-    protected Vector3 velocity;
-    protected Vector3 acceleration;
-    protected Vector3 force;
-    protected float Max_Speed;
+        [SerializeField] protected float mass;
+        [SerializeField] protected Vector3 velocity;
+        [SerializeField] protected Vector3 acceleration;
+        [SerializeField] protected Vector3 force;
+        [SerializeField] protected float max_speed;
+    }
 }
