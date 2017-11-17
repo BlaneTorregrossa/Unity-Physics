@@ -4,11 +4,9 @@ using UnityEngine;
 
 namespace Blane
 {
-
     public interface IMovable
     {
-
-        void Initialize(int m, int ms, Transform t);
+        void Initialize(Transform t);
 
         bool Add_Force(float magnitude, Vector3 Direction);
 
@@ -19,14 +17,13 @@ namespace Blane
 
     public class Boid : Agent, IMovable
     {
-
-        void IMovable.Initialize(int m, int ms, Transform t)
+        void IMovable.Initialize(Transform t)
         {
-            mass = m;
-            max_speed = ms;
+            mass = 1;
+            max_speed = 100;
             velocity = new Vector3(0, 0, 0);
             acceleration = new Vector3(0, 0, 0);
-            force = new Vector3(0, 0, 0);
+            force = new Vector3(Random.Range(-1, 1), Random.Range(-1, 1), 0);
             Position = t.position;
         }
 

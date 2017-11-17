@@ -11,7 +11,7 @@ namespace Blane
 
         public void CallInit(Transform t)
         {
-            movable.Initialize(1, 100, t);
+            movable.Initialize(t);
         }
 
         public void SetMovable(IMovable mover)
@@ -21,7 +21,7 @@ namespace Blane
 
         public void LateUpdate()
         {
-            transform.position = movable.Update_Agent(Time.deltaTime);  // *
+            transform.position += movable.Update_Agent(Time.deltaTime);
         }
 
     }

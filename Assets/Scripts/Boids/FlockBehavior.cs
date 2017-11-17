@@ -4,12 +4,9 @@ using UnityEngine;
 
 namespace Blane
 {
-    // Can't use any of this yet...
     public class FlockBehavior : MonoBehaviour
     {
-        public float kCohesion;
-        public float kDisruption;
-        public float kAllignment;
+        public int agentCreateNum;  // Used for attempt to fix cohesion and Allignment
         public AgentFactory factoryInstance;
 
         private List<Boid> boids;
@@ -17,42 +14,46 @@ namespace Blane
         // Factory functiosn called here
         private void Start()
         {
-            factoryInstance.CreateAgents(15);
+            agentCreateNum = 15;
+            factoryInstance.CreateAgents(agentCreateNum);
         }
 
         private void Update()
         {
             boids = factoryInstance.GetBoids();
-            MoveToNewPosition();
+            MoveToNewPosition(); // *
         }
 
-        // Rule 1 
+        // Rule 1 *
         private Vector3 Cohesion(Boid bI)
         {
-            var seperation = new Vector3(0, 0, 0);
+
+            Vector3 percievedCenter = new Vector3(0, 0, 0);
 
             foreach (Boid b in boids)
             {
                 if (b != bI)
-                    seperation = seperation + b.Position;
+                    percievedCenter = percievedCenter + b.Position;
             }
 
-            seperation = seperation / (boids.Count - 1);
-            return seperation;
+            percievedCenter = percievedCenter / (boids.Count - 1);
+            return (percievedCenter - bI.Position) / 100;
         }
 
-        // Rule 2 
+        // Rule 2 *
         private Vector3 Dispurtion(Boid bI)
         {
-            var center = new Vector3(0, 0, 0);
+            Vector3 center = new Vector3(0, 0, 0);
 
             foreach (Boid b in boids)
             {
                 if (b != bI)
                 {
                     if (Mathf.Sqrt(
-                        (b.Position.x * 2) + (b.Position.y * 2) + (b.Position.z * 2)
-                        - (bI.Position.x * 2) + (bI.Position.y * 2) + (bI.Position.z * 2))
+                        (((b.Position.x) - (bI.Position.x)) * 2
+                        + ((b.Position.y) - (bI.Position.y)) * 2
+                        + ((b.Position.z) - (bI.Position.z)) * 2
+                        ))
                         < 100)
                     {
                         center = center - (b.Position - bI.Position);
@@ -63,19 +64,20 @@ namespace Blane
             return center;
         }
 
-        // Rule 3 
+        // Rule 3 *
         private Vector3 Allignement(Boid bI)
         {
-            var allign = new Vector3(0, 0, 0);
+            Vector3 percievedVelocity = new Vector3(0, 0, 0);
 
             foreach (Boid b in boids)
             {
                 if (b != bI)
-                    allign = allign + b.Velocity;
+                    percievedVelocity = percievedVelocity + b.Velocity;
             }
 
-            allign = (allign - bI.Velocity) / 8;
-            return allign;
+            percievedVelocity = percievedVelocity / (boids.Count - 1);
+
+            return (percievedVelocity - bI.Velocity) / 8;
         }
 
         // Come back to Later
@@ -86,44 +88,52 @@ namespace Blane
             return Goal;
         }
 
-        // Check to see if velocity is higher than set limit
+        // ***
         private void VelocityLimit(Boid bI)
         {
-            int Limit = 100;
-            if (Mathf.Sqrt((bI.Velocity.x * 2) + (bI.Velocity.y * 2) + (bI.Velocity.z * 2)) > Limit)
+            float Limit = 1;
+            if (Mathf.Sqrt(((bI.Velocity.x) + (bI.Velocity.y)) * 2) > Limit)
             {
                 bI.Velocity =
-                    (bI.Velocity / Mathf.Sqrt((bI.Velocity.x * 2) + (bI.Velocity.y * 2) + (bI.Velocity.z * 2))) * Limit;
+                    (bI.Velocity /
+                    Mathf.Sqrt(((bI.Velocity.x) + (bI.Velocity.y)) * 2))
+                    * Limit;
+                Debug.Log("Velocity should be reset");
             }
         }
 
-        // Set Boundries for boids (Can be changed)
+        // Set Boundries ***
         private Vector3 BoundPosition(Boid bI)
         {
-            int Xmin = -100, Xmax = 100, Ymin = -100, Ymax = 100, Zmin = 0, Zmax = 0;
+            int Xmin = -25, Xmax = 25, Ymin = -25, Ymax = 25, Zmin = -25, Zmax = 25;
             Vector3 returnForce = new Vector3(0, 0, 0);
 
             #region Set boundries
-            if (bI.Position.x < Xmin)
+            if (bI.Position.x <= Xmin)
             {
-                returnForce.x = 15;
+                returnForce.x = 10;
             }
-            if (bI.Position.x > Xmax)
+            else if (bI.Position.x >= Xmax)
             {
-                returnForce.x = -15;
+                returnForce.x = -10;
             }
-            if (bI.Position.y < Ymin)
+            if (bI.Position.y <= Ymin)
             {
-                returnForce.y = 15;
+                returnForce.y = 10;
             }
-            if (bI.Position.y > Ymax)
+            else if (bI.Position.y >= Ymax)
             {
-                returnForce.y = -15;
+                returnForce.y = -10;
             }
-            if (bI.Position.z < Zmin || bI.Position.z > Zmax)
+            if (bI.Position.z <= Zmin)
             {
-                bI.Position.z = 0;
+                returnForce.z = 10;
             }
+            else if (bI.Position.z >= Zmax)
+            {
+                returnForce.z = -10;
+            }
+
             #endregion
 
             return returnForce;
@@ -143,10 +153,13 @@ namespace Blane
                 v5 = BoundPosition(b);
 
                 b.Velocity = b.Velocity + v1 + v2 + v3 + v4 + v5;
-                VelocityLimit(b);   // void function
+                VelocityLimit(b);
                 b.Position = b.Position + b.Velocity;
+                Debug.Log(b.Position.ToString());
             }
 
         }
+
+
     }
 }
