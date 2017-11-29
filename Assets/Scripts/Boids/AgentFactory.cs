@@ -5,16 +5,10 @@ using UnityEngine;
 namespace Blane
 {
 
-    /// <summary>
-    /// Needed: 
-    /// remove rigidbody from GameObject X
-    /// Add the Boid Behavior as a component    X 
-    /// set boid field in the boid behavior component   X
-    /// add gameobject to list  X
-    /// add BoidBehavior to list    (???)
-    /// </summary>
     public class AgentFactory : MonoBehaviour
     {
+
+        public GameObject agent;
 
         public List<Agent> agents;      // List of agent not boid
         public List<BoidBehavior> behaviors;
@@ -31,6 +25,10 @@ namespace Blane
                 var b = ScriptableObject.CreateInstance<Boid>();
                 var bb = go.AddComponent<BoidBehavior>();   // Add boid behaviour as a component
 
+                //go.transform.position = new Vector3 (Random.Range(-5, 5), Random.Range(-5, 5), 0);
+                b.Initialize(go.transform);
+                bb.SetMovable(b);
+
                 Destroy(go.GetComponent<Rigidbody>());  // Destroy rigidbody of the gameobject
                 Destroy(go.GetComponent<CapsuleCollider>());    // Remove Default Collider
 
@@ -38,7 +36,6 @@ namespace Blane
                 bb.SetMovable(b);
                 behaviors.Add(bb);  // ???
 
-                bb.CallInit(go.transform);
                 objects.Add(go);
             }
         }

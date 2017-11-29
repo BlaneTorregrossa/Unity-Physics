@@ -21,7 +21,7 @@ namespace Blane
         private void Update()
         {
             boids = factoryInstance.GetBoids();
-            MoveToNewPosition(); // *
+            MoveToNewPosition();
         }
 
         // Rule 1 *
@@ -33,11 +33,11 @@ namespace Blane
             foreach (Boid b in boids)
             {
                 if (b != bI)
-                    percievedCenter = percievedCenter + b.Position;
+                    percievedCenter = percievedCenter + b.position;
             }
 
             percievedCenter = percievedCenter / (boids.Count - 1);
-            return (percievedCenter - bI.Position) / 100;
+            return (percievedCenter - bI.position) / 100;
         }
 
         // Rule 2 *
@@ -49,14 +49,9 @@ namespace Blane
             {
                 if (b != bI)
                 {
-                    if (Mathf.Sqrt(
-                        (((b.Position.x) - (bI.Position.x)) * 2
-                        + ((b.Position.y) - (bI.Position.y)) * 2
-                        + ((b.Position.z) - (bI.Position.z)) * 2
-                        ))
-                        < 100)
+                    if (Vector3.Magnitude(b.position - bI.position) < 50)
                     {
-                        center = center - (b.Position - bI.Position);
+                        center = center - (b.position - bI.position);
                     }
                 }
             }
@@ -72,12 +67,12 @@ namespace Blane
             foreach (Boid b in boids)
             {
                 if (b != bI)
-                    percievedVelocity = percievedVelocity + b.Velocity;
+                    percievedVelocity = percievedVelocity + b.velocity;
             }
 
             percievedVelocity = percievedVelocity / (boids.Count - 1);
 
-            return (percievedVelocity - bI.Velocity) / 8;
+            return (percievedVelocity - bI.velocity) / 8;
         }
 
         // Come back to Later
@@ -92,11 +87,11 @@ namespace Blane
         private void VelocityLimit(Boid bI)
         {
             float Limit = 1;
-            if (Mathf.Sqrt(((bI.Velocity.x) + (bI.Velocity.y)) * 2) > Limit)
+            if (Mathf.Sqrt(((bI.velocity.x) + (bI.velocity.y)) * 2) > Limit)
             {
-                bI.Velocity =
-                    (bI.Velocity /
-                    Mathf.Sqrt(((bI.Velocity.x) + (bI.Velocity.y)) * 2))
+                bI.velocity =
+                    (bI.velocity /
+                    Mathf.Sqrt(((bI.velocity.x) + (bI.velocity.y)) * 2))
                     * Limit;
                 Debug.Log("Velocity should be reset");
             }
@@ -109,27 +104,27 @@ namespace Blane
             Vector3 returnForce = new Vector3(0, 0, 0);
 
             #region Set boundries
-            if (bI.Position.x <= Xmin)
+            if (bI.position.x <= Xmin)
             {
                 returnForce.x = 10;
             }
-            else if (bI.Position.x >= Xmax)
+            else if (bI.position.x >= Xmax)
             {
                 returnForce.x = -10;
             }
-            if (bI.Position.y <= Ymin)
+            if (bI.position.y <= Ymin)
             {
                 returnForce.y = 10;
             }
-            else if (bI.Position.y >= Ymax)
+            else if (bI.position.y >= Ymax)
             {
                 returnForce.y = -10;
             }
-            if (bI.Position.z <= Zmin)
+            if (bI.position.z <= Zmin)
             {
                 returnForce.z = 10;
             }
-            else if (bI.Position.z >= Zmax)
+            else if (bI.position.z >= Zmax)
             {
                 returnForce.z = -10;
             }
@@ -152,10 +147,10 @@ namespace Blane
                 v4 = SetGoal(b);
                 v5 = BoundPosition(b);
 
-                b.Velocity = b.Velocity + v1 + v2 + v3 + v4 + v5;
+                b.velocity = b.velocity + v1 + v2 + v3 + v4 + v5;
                 VelocityLimit(b);
-                b.Position = b.Position + b.Velocity;
-                Debug.Log(b.Position.ToString());
+                b.position = b.position + b.velocity;
+                Debug.Log(b.position.ToString());
             }
 
         }

@@ -6,8 +6,6 @@ namespace Blane
 {
     public interface IMovable
     {
-        void Initialize(Transform t);
-
         bool Add_Force(float magnitude, Vector3 Direction);
 
         // Update acceleration, velocity, and position
@@ -17,16 +15,19 @@ namespace Blane
 
     public class Boid : Agent, IMovable
     {
-        void IMovable.Initialize(Transform t)
+        public void Initialize(Transform t)
         {
             mass = 1;
-            max_speed = 100;
-            velocity = new Vector3(0, 0, 0);
+            max_speed = 50;
+
+            velocity = new Vector3(Random.Range(-1, 1), Random.Range(-1, 1), 0);
             acceleration = new Vector3(0, 0, 0);
-            force = new Vector3(Random.Range(-1, 1), Random.Range(-1, 1), 0);
-            Position = t.position;
+            force = new Vector3(0, 0, 0);
+
+            position = t.position;
         }
 
+        // Still confused to why this would needs to be bool
         bool IMovable.Add_Force(float magnitude, Vector3 Direction)
         {
             bool check;
@@ -44,10 +45,10 @@ namespace Blane
         {
             acceleration = force / mass;
             velocity += acceleration * deltaTime;
-            Velocity = Vector3.ClampMagnitude(velocity, max_speed);
-            Position += Velocity * deltaTime;
+            velocity = Vector3.ClampMagnitude(velocity, max_speed);
+            position += velocity * deltaTime;
 
-            return Position;
+            return position;
         }
     }
 }
