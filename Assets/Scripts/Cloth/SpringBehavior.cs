@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+/// <summary>
+/// Go trough Particle and SpringDamper script before coming back to this
+/// Evreything needs revision here depending on how particle and SpringDamper are looking
+/// </summary>
 public class SpringBehavior : MonoBehaviour
 {
 
@@ -10,7 +15,6 @@ public class SpringBehavior : MonoBehaviour
     public GameObject anchorObject;
 
     public Blane.Particle _particle;
-    public Blane.Particle _particleAlt;
     protected Vector3 anchorPos;
     protected float springConstant;
     protected float restLength;
@@ -24,38 +28,14 @@ public class SpringBehavior : MonoBehaviour
         anchorPos = anchorObject.transform.position;
 
         _particle.Initilize();
-        _particleAlt.Initilize();
         _particle.position = new Vector3(0, 0, 0);
-        _particleAlt.position = new Vector3(3, 0, 0);
         particleObject.transform.position = _particle.position;
-        particleAltObject.transform.position = _particleAlt.position;
-
-    }
-
-    // * Not how it should be 
-    void CheckParticle(Blane.Particle p1, Blane.Particle p2, float ks, float lo)
-    {
-        float tempValue = ks * lo;
-
-        if (p1.position.y < -lo)
-        {
-            PullPosition = p1.position;
-            p1.force = new Vector3(0, tempValue / 2, 0);
-        }
-
-        if (p1.position.y > PullPosition.y / 2)
-        {
-            p1.force = new Vector3(0, -9.81f, 0);
-        }
 
     }
 
     void Update()
     {
         _particle.Update(Time.deltaTime);
-        _particleAlt.Update(Time.deltaTime);
-        CheckParticle(_particle, _particleAlt, restLength, springConstant);
         particleObject.transform.position = _particle.position;
-        particleAltObject.transform.position = _particleAlt.position;
     }
 }
