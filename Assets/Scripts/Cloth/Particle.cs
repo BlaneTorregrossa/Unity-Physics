@@ -32,6 +32,11 @@ namespace Blane
 
             return position;
         }
+
+        public Vector3 AddForce(Vector3 newForce)
+        {
+            return force += newForce;
+        }
     }
 
 }
