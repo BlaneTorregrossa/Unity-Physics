@@ -4,7 +4,8 @@ using UnityEngine;
 
 namespace Blane
 {
-
+    
+    // Everything here is good
     [System.Serializable]
     public class Particle
     {
@@ -30,25 +31,6 @@ namespace Blane
             acceleration = force / mass;
             velocity += acceleration * deltaTime;
             position += velocity * deltaTime;
-
-            #region area test control
-            if (Input.GetKey(KeyCode.UpArrow))
-            {
-                position.y++;
-            }
-            if (Input.GetKey(KeyCode.DownArrow))
-            {
-                position.y--;
-            }
-            if (Input.GetKey(KeyCode.LeftArrow))
-            {
-                position.x--;
-            }
-            if (Input.GetKey(KeyCode.RightArrow))
-            {
-                position.x++;
-            }
-            #endregion
 
             return position;
         }
