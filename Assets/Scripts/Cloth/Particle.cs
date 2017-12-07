@@ -14,6 +14,7 @@ namespace Blane
         public Vector3 acceleration;
         public Vector3 position;
         public Vector3 force;
+        public Vector3 startingPosition;
 
         public void Initilize()
         {
@@ -30,6 +31,25 @@ namespace Blane
             velocity += acceleration * deltaTime;
             position += velocity * deltaTime;
 
+            #region area test control
+            if (Input.GetKey(KeyCode.UpArrow))
+            {
+                position.y++;
+            }
+            if (Input.GetKey(KeyCode.DownArrow))
+            {
+                position.y--;
+            }
+            if (Input.GetKey(KeyCode.LeftArrow))
+            {
+                position.x--;
+            }
+            if (Input.GetKey(KeyCode.RightArrow))
+            {
+                position.x++;
+            }
+            #endregion
+
             return position;
         }
 
@@ -37,6 +57,8 @@ namespace Blane
         {
             return force += newForce;
         }
+
+
     }
 
 }

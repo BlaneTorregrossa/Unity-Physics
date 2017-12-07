@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Blane
 {
+    [System.Serializable]
     public class SpringDamper
     {
         public Particle p1, p2;
@@ -39,12 +40,31 @@ namespace Blane
             Vector3 f1 = fsd * e;
             Vector3 f2 = -f1;
 
+            #region Prevents particles from dropping forever
+            if (p1.position.y > p1.startingPosition.y + Lo)
+            {
+                p1.position = new Vector3(p1.position.x, p1.startingPosition.y + Lo, p1.position.z);
+            }
+            if (p1.position.y < p1.startingPosition.y - Lo)
+            {
+                p1.position = new Vector3(p1.position.x, p1.startingPosition.y - Lo, p1.position.z);
+            }
+            if (p2.position.y > p2.startingPosition.y + Lo)
+            {
+                p2.position = new Vector3(p2.position.x, p2.startingPosition.y + Lo, p2.position.z);
+            }
+            if (p2.position.y < p2.startingPosition.y - Lo)
+            {
+                p2.position = new Vector3(p2.position.x, p2.startingPosition.y - Lo, p2.position.z);
+            }
+            #endregion
+
             p1.AddForce(f1);
             p2.AddForce(f2);
         }
-        
 
-        
+
+
 
 
     }
