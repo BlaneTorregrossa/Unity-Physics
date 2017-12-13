@@ -7,8 +7,6 @@ namespace Blane
     public interface IMovable
     {
         bool Add_Force(float magnitude, Vector3 Direction);
-
-        // Update acceleration, velocity, and position
         Vector3 Update_Agent(float deltaTime);
     }
 
@@ -45,7 +43,7 @@ namespace Blane
         {
             acceleration = force / mass;
             velocity += acceleration * deltaTime;
-            velocity = Vector3.ClampMagnitude(velocity, max_speed);
+            velocity = Vector3.ClampMagnitude(velocity, max_speed); // Clamp velocity to boid's max speed
             position += velocity * deltaTime;
 
             return position;

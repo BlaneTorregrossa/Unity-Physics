@@ -49,7 +49,7 @@ namespace Blane
             {
                 if (b != bI)
                 {
-                    if (Vector3.Magnitude(b.position - bI.position) < 50)
+                    if (Vector3.Magnitude(b.position - bI.position) < 15)
                     {
                         center = center - (b.position - bI.position);
                     }
@@ -83,17 +83,16 @@ namespace Blane
             return Goal;
         }
 
-        // ***
+        // Limit for velocity variable
         private void VelocityLimit(Boid bI)
         {
             float Limit = 1;
-            if (Mathf.Sqrt(((bI.velocity.x) + (bI.velocity.y)) * 2) > Limit)
+            if (bI.velocity.magnitude > Limit)
             {
                 bI.velocity =
                     (bI.velocity /
-                    Mathf.Sqrt(((bI.velocity.x) + (bI.velocity.y)) * 2))
+                    bI.velocity.magnitude)
                     * Limit;
-                Debug.Log("Velocity should be reset");
             }
         }
 

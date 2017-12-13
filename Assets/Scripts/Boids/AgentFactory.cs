@@ -25,7 +25,7 @@ namespace Blane
                 var b = ScriptableObject.CreateInstance<Boid>();
                 var bb = go.AddComponent<BoidBehavior>();   // Add boid behaviour as a component
 
-                //go.transform.position = new Vector3 (Random.Range(-5, 5), Random.Range(-5, 5), 0);
+                go.transform.position = new Vector3 (Random.Range(-5, 5), Random.Range(-5, 5), 0);
                 b.Initialize(go.transform);
                 bb.SetMovable(b);
 
