@@ -23,7 +23,6 @@ namespace Blane
             velocity = new Vector3(0, 0, 0);
             acceleration = new Vector3(0, 0, 0);
             position = new Vector3(0, 0, 0);
-            force = new Vector3(0, -9.81f, 0);
         }
 
         public Vector3 Update(float deltaTime)
