@@ -22,11 +22,14 @@ namespace Blane
             for (int i = 0; i < count; i++)
             {
                 var go = GameObject.CreatePrimitive(PrimitiveType.Capsule); // Set object to be a capsule
-                var b = ScriptableObject.CreateInstance<Boid>();
-                var bb = go.AddComponent<BoidBehavior>();   // Add boid behaviour as a component
+                var b = ScriptableObject.CreateInstance<Boid>();    // Create a new Boid
+                var bb = go.AddComponent<BoidBehavior>();   // Add boid behaviour as a component to the gameobject
 
-                //go.transform.position = new Vector3 (Random.Range(-5, 5), Random.Range(-5, 5), 0);
-                b.Initialize(go.transform);
+                //if (b != agents[0])
+                //    b.Leader = agents[0];
+
+                go.transform.position = new Vector3(Random.Range(-5, 5), Random.Range(-5, 5), 0);       // Set Random Starting position for the boid
+                b.Initialize(go.transform);     // Initialize boud values with a given object transform
                 bb.SetMovable(b);
 
                 Destroy(go.GetComponent<Rigidbody>());  // Destroy rigidbody of the gameobject
@@ -34,7 +37,7 @@ namespace Blane
 
                 agents.Add(b);
                 bb.SetMovable(b);
-                behaviors.Add(bb);  // ???
+                behaviors.Add(bb);
 
                 objects.Add(go);
             }
