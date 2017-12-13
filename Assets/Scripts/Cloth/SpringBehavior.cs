@@ -26,8 +26,7 @@ public class SpringBehavior : MonoBehaviour
         }
     }
 
-    // update particle position and force applied to particle
-    //  ***
+    // *** update particle position and force applied to particle
     void Update()
     {
         for (int p = 0; p < 25; p++)

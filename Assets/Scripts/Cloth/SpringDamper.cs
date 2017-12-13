@@ -37,26 +37,6 @@ namespace Blane
             Vector3 f1 = fsd * e;
             Vector3 f2 = -f1;
 
-            // Should move no more than 10 unity units from the starting position;
-            #region Prevents particles from dropping forever
-            if (p1.position.y > p1.startingPosition.y + Lo)
-            {
-                p1.position = new Vector3(p1.position.x, p1.startingPosition.y + Lo, p1.position.z);
-            }
-            if (p1.position.y < p1.startingPosition.y - Lo)
-            {
-                p1.position = new Vector3(p1.position.x, p1.startingPosition.y - Lo, p1.position.z);
-            }
-            if (p2.position.y > p2.startingPosition.y + Lo)
-            {
-                p2.position = new Vector3(p2.position.x, p2.startingPosition.y + Lo, p2.position.z);
-            }
-            if (p2.position.y < p2.startingPosition.y - Lo)
-            {
-                p2.position = new Vector3(p2.position.x, p2.startingPosition.y - Lo, p2.position.z);
-            }
-            #endregion
-
             // Added force, In this case "gravity"
             p1.AddForce(f1);
             p2.AddForce(f2);

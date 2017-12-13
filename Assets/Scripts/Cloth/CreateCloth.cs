@@ -30,11 +30,10 @@ namespace Blane
             for (int j = 0; j < 25; j++)
             {
                 particleList[j].position = particleList[j - 1].position + new Vector3(0, 3, 0);
-                if (particleList[j].position == new Vector3(particleList[j].position.x, 15, particleList[j].position.z))
+                if (particleList[j].position == new Vector3(particleList[j].position.x, 21, particleList[j].position.z))
                 {
                     particleList[j].position = new Vector3(particleList[j].position.x + 3, 0, particleList[j].position.z);
                 }
-                particleList[j].startingPosition = particleList[j].position;
             }
 
 

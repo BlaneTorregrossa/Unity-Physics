@@ -15,7 +15,6 @@ namespace Blane
         public Vector3 acceleration;
         public Vector3 position;
         public Vector3 force;
-        public Vector3 startingPosition;
 
         public void Initilize()
         {
@@ -28,15 +27,15 @@ namespace Blane
         public Vector3 Update(float deltaTime)
         {
             acceleration = force / mass;
-            velocity += acceleration * deltaTime;
-            position += velocity * deltaTime;
+            velocity = velocity + acceleration * deltaTime;
+            position = position + velocity * deltaTime;
 
             return position;
         }
 
         public Vector3 AddForce(Vector3 newForce)
         {
-            return force += newForce;
+            return force = force + newForce;
         }
 
 
