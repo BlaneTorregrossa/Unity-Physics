@@ -14,14 +14,14 @@ namespace Blane
         // Factory functiosn called here
         private void Start()
         {
-            agentCreateNum = 15;
-            factoryInstance.CreateAgents(agentCreateNum);
+            agentCreateNum = 15;    // The amount of agents created for the secne
+            factoryInstance.CreateAgents(agentCreateNum);   // Call for creating agents with given value for agents to create
         }
 
         private void Update()
         {
-            boids = factoryInstance.GetBoids();
-            MoveToNewPosition();
+            boids = factoryInstance.GetBoids();     // Get Created boids
+            MoveToNewPosition();    // For position Update
         }
 
         // Rule 1 *
@@ -49,7 +49,7 @@ namespace Blane
             {
                 if (b != bI)
                 {
-                    if (Vector3.Magnitude(b.position - bI.position) < 15)
+                    if (Vector3.Magnitude(b.position - bI.position) < 3)
                     {
                         center = center - (b.position - bI.position);
                     }
@@ -75,18 +75,18 @@ namespace Blane
             return (percievedVelocity - bI.velocity) / 8;
         }
 
-        // Come back to Later
+        // Come back to Later (Set Goal to a leader)
         private Vector3 SetGoal(Boid bI)
         {
-            Vector3 Goal = new Vector3(0, 0, 0);
-
-            return Goal;
+            Vector3 Goal = new Vector3(5, 5, 0);
+            
+            return (Goal - bI.position) / 100;
         }
 
         // Limit for velocity variable
         private void VelocityLimit(Boid bI)
         {
-            float Limit = 1;
+            float Limit = 1f;
             if (bI.velocity.magnitude > Limit)
             {
                 bI.velocity =
@@ -96,7 +96,7 @@ namespace Blane
             }
         }
 
-        // Set Boundries ***
+        // Set Boundries
         private Vector3 BoundPosition(Boid bI)
         {
             int Xmin = -25, Xmax = 25, Ymin = -25, Ymax = 25, Zmin = -25, Zmax = 25;
@@ -146,9 +146,9 @@ namespace Blane
                 v4 = SetGoal(b);
                 v5 = BoundPosition(b);
 
-                b.velocity = b.velocity + v1 + v2 + v3 + v4 + v5;
-                VelocityLimit(b);
-                b.position = b.position + b.velocity;
+                b.velocity = b.velocity + v1 + v2 + v3 + v4 + v5;   // Velocity set by Rules the boids are to "Follow" that were set in seperate functions
+                VelocityLimit(b);   // Without this it's hard to keep visual track of the boids
+                b.position = b.position + b.velocity;   // Position update with the new velocity
                 Debug.Log(b.position.ToString());
             }
 

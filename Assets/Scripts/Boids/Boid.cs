@@ -13,6 +13,8 @@ namespace Blane
 
     public class Boid : Agent, IMovable
     {
+        //public Agent Leader;
+
         public void Initialize(Transform t)
         {
             mass = 1;
@@ -25,7 +27,7 @@ namespace Blane
             position = t.position;
         }
 
-        // Still confused to why this would needs to be bool
+        // *
         bool IMovable.Add_Force(float magnitude, Vector3 Direction)
         {
             bool check;
@@ -43,7 +45,7 @@ namespace Blane
         {
             acceleration = force / mass;
             velocity += acceleration * deltaTime;
-            velocity = Vector3.ClampMagnitude(velocity, max_speed); // Clamp velocity to boid's max speed
+            velocity = Vector3.ClampMagnitude(velocity, max_speed);     // Clamp velocity to boid's max speed
             position += velocity * deltaTime;
 
             return position;
