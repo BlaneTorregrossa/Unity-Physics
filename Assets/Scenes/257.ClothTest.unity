@@ -148,27 +148,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16fd3feeffae11643ba6dafe02d933a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  particleObject: {fileID: 1833445967076294, guid: 8714a7754ce63894580c879df22aab72,
-    type: 2}
+  particlePosition: {x: 0, y: 0, z: 0}
+  particleObject: {fileID: 0}
   anchorObject: {fileID: 0}
-  _springDamper:
-    p1:
-      mass: 0
-      velocity: {x: 0, y: 0, z: 0}
-      acceleration: {x: 0, y: 0, z: 0}
-      position: {x: 0, y: 0, z: 0}
-      force: {x: 0, y: 0, z: 0}
-      startingPosition: {x: 0, y: 0, z: 0}
-    p2:
-      mass: 0
-      velocity: {x: 0, y: 0, z: 0}
-      acceleration: {x: 0, y: 0, z: 0}
-      position: {x: 0, y: 0, z: 0}
-      force: {x: 0, y: 0, z: 0}
-      startingPosition: {x: 0, y: 0, z: 0}
-    Ks: 0
-    Kd: 0
-    Lo: 0
   particleObjectList: []
   anchorObjectList: []
 --- !u!1 &1844569108
@@ -183,6 +165,7 @@ GameObject:
   - component: {fileID: 1844569111}
   - component: {fileID: 1844569110}
   - component: {fileID: 1844569109}
+  - component: {fileID: 1844569114}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -230,7 +213,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 1
+  orthographic: 0
   orthographic size: 5
   m_Depth: -1
   m_CullingMask:
@@ -253,10 +236,33 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1844569108}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalRotation: {x: 0.13052616, y: 0, z: 0, w: 0.9914449}
+  m_LocalPosition: {x: 0, y: 5, z: -25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 15, y: 0, z: 0}
+--- !u!114 &1844569114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1844569108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8fa0d7d30d6a3e419ca303e2acfe913, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  targetOffset: {x: 0, y: 0, z: 0}
+  distance: 5
+  maxDistance: 20
+  minDistance: 0.6
+  xSpeed: 200
+  ySpeed: 200
+  yMinLimit: -80
+  yMaxLimit: 80
+  zoomRate: 40
+  panSpeed: 0.3
+  zoomDampening: 5

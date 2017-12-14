@@ -4,6 +4,8 @@ using UnityEngine;
 
 namespace Blane
 {
+
+    // Good
     [System.Serializable]
     public class SpringDamper
     {
