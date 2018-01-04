@@ -4,8 +4,7 @@ using UnityEngine;
 
 namespace Blane
 {
-    
-    // Good
+
     [System.Serializable]
     public class Particle
     {
@@ -14,6 +13,7 @@ namespace Blane
         public Vector3 velocity;
         public Vector3 acceleration;
         public Vector3 position;
+        public Vector3 startingPos;
         public Vector3 force;
 
         public void Initilize()
@@ -31,7 +31,13 @@ namespace Blane
             velocity = velocity + acceleration * deltaTime;
             position = position + velocity * deltaTime;
 
-            return position;
+            if ((position.x <= startingPos.x * 3 || position.y <= startingPos.y * 3 || position.z <= startingPos.z * 3) &&
+                (position.x >= startingPos.x * -3 || position.y >= startingPos.y * -3 || position.z >= startingPos.z * -3))
+            {
+                return position;
+            }
+            else
+                return startingPos;
         }
 
         public Vector3 AddForce(Vector3 newForce)

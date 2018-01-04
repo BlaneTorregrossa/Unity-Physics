@@ -14,13 +14,15 @@ namespace Blane
         public List<Blane.Particle> particleList = new List<Blane.Particle>();
         public List<Blane.Particle> anchorList = new List<Blane.Particle>();
 
-        public List<Blane.Particle> altPerticleList = new List<Blane.Particle>();
+        #region Not Used
+        public List<Blane.Particle> altParticleList = new List<Blane.Particle>();
 
         public Blane.Particle p0, p1, p2, p3, p4,
                             p5, p6, p7, p8, p9,
                             p10, p11, p12, p13, p14,
                             p15, p16, p17, p18, p19,
                             p20, p21, p22, p23, p24;
+        #endregion
 
         private Vector3 prevPosition = new Vector3(0, 0, 0);
 
@@ -47,12 +49,14 @@ namespace Blane
                     particleList[j].position.y = 0;
                     prevPosition = particleList[j].position;
                     counter++;
+                    particleList[j].startingPos = prevPosition;
                     Debug.Log("1st Particle Position Check: " + particleList[j].position.ToString());     // To keep track of set positions of particles
                 }
                 else
                 {
                     particleList[j].position.y = particleList[j].position.y + 5;
                     prevPosition = particleList[j].position;
+                    particleList[j].startingPos = prevPosition;
                     if (counter == 5)
                     {
                         particleList[j].position.y = 0;
@@ -70,24 +74,34 @@ namespace Blane
             p15 = particleList[15]; p16 = particleList[16]; p17 = particleList[17]; p18 = particleList[18]; p19 = particleList[19];
             p20 = particleList[20]; p21 = particleList[21]; p22 = particleList[22]; p23 = particleList[23]; p24 = particleList[24];
 
-            altPerticleList.Add(p0); altPerticleList.Add(p1); altPerticleList.Add(p2); altPerticleList.Add(p3); altPerticleList.Add(p4);
-            altPerticleList.Add(p5); altPerticleList.Add(p6); altPerticleList.Add(p7); altPerticleList.Add(p8); altPerticleList.Add(p9);
-            altPerticleList.Add(p10); altPerticleList.Add(p11); altPerticleList.Add(p12); altPerticleList.Add(p13); altPerticleList.Add(p14);
-            altPerticleList.Add(p15); altPerticleList.Add(p16); altPerticleList.Add(p17); altPerticleList.Add(p18); altPerticleList.Add(p19);
-            altPerticleList.Add(p20); altPerticleList.Add(p21); altPerticleList.Add(p22); altPerticleList.Add(p23); altPerticleList.Add(p24);
+            altParticleList.Add(p0); altParticleList.Add(p1); altParticleList.Add(p2); altParticleList.Add(p3); altParticleList.Add(p4);
+            altParticleList.Add(p5); altParticleList.Add(p6); altParticleList.Add(p7); altParticleList.Add(p8); altParticleList.Add(p9);
+            altParticleList.Add(p10); altParticleList.Add(p11); altParticleList.Add(p12); altParticleList.Add(p13); altParticleList.Add(p14);
+            altParticleList.Add(p15); altParticleList.Add(p16); altParticleList.Add(p17); altParticleList.Add(p18); altParticleList.Add(p19);
+            altParticleList.Add(p20); altParticleList.Add(p21); altParticleList.Add(p22); altParticleList.Add(p23); altParticleList.Add(p24);
             #endregion
 
         }
 
-        public void Update_Position()
+        public Vector3 Update_Position(int index)
         {
-            for (int u = 0; u < 25; u++)
-            {
-                particleList[u].Update(Time.deltaTime);
-                anchorList[u].Update(Time.deltaTime);
+            _springDamper.CalculateForce();
 
-                _springDamper.CalculateForce();
-            }
+            Vector3 result = particleList[index].Update(Time.deltaTime);
+
+            return result;
+
         }
+
+        public Vector3 Update_Anchor_Position(int index)
+        {
+            _springDamper.CalculateForce();
+
+            Vector3 result = anchorList[index].Update(Time.deltaTime);
+
+            return result;
+
+        }
+
     }
 }
