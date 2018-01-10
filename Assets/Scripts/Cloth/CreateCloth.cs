@@ -5,6 +5,8 @@ using UnityEngine;
 
 namespace Blane
 {
+
+    //  NO LONGER USED, BETTER TO CREATE CLOTH IN THE MONOBEHAVIOUR CLASS
     public class CreateCloth
     {
         public SpringDamper _springDamper = new SpringDamper();

@@ -36,17 +36,17 @@ namespace Blane
         }
 
         // Adds Force to Particle
-        public Vector3 AddForce(Vector3 newForce)
+        public void AddForce(Vector3 newForce)
         {
-            return force += newForce;
+            force += newForce;
         }
 
         // Change position to given argument
-        public Vector3 Update_Position(Vector3 newPos)
-        {
-            position = newPos;
-            return position;
-        }
+        //public Vector3 Update_Position(Vector3 newPos)
+        //{
+        //    position = newPos;
+        //    return position;
+        //}
 
     }
 
