@@ -38,7 +38,6 @@ namespace Blane
                 agents.Add(b);
                 bb.SetMovable(b);
                 behaviors.Add(bb);
-
                 objects.Add(go);
             }
         }

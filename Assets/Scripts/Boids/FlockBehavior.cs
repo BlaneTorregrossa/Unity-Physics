@@ -14,7 +14,7 @@ namespace Blane
         // Factory functiosn called here
         private void Start()
         {
-            agentCreateNum = 15;    // The amount of agents created for the secne
+            agentCreateNum = 25;    // The amount of agents created for the secne
             factoryInstance.CreateAgents(agentCreateNum);   // Call for creating agents with given value for agents to create
         }
 
@@ -78,15 +78,15 @@ namespace Blane
         // Come back to Later (Set Goal to a leader)
         private Vector3 SetGoal(Boid bI)
         {
-            Vector3 Goal = new Vector3(5, 5, 0);
-            
+            Vector3 Goal = new Vector3(0, -5, 0);
+
             return (Goal - bI.position) / 100;
         }
 
         // Limit for velocity variable
         private void VelocityLimit(Boid bI)
         {
-            float Limit = 1f;
+            float Limit = 3f;
             if (bI.velocity.magnitude > Limit)
             {
                 bI.velocity =
@@ -96,10 +96,10 @@ namespace Blane
             }
         }
 
-        // Set Boundries
+        // Set Boundries (Can Implement Perching if I had time)
         private Vector3 BoundPosition(Boid bI)
         {
-            int Xmin = -25, Xmax = 25, Ymin = -25, Ymax = 25, Zmin = -25, Zmax = 25;
+            int Xmin = -100, Xmax = 100, Ymin = -100, Ymax = 100, Zmin = -100, Zmax = 100;
             Vector3 returnForce = new Vector3(0, 0, 0);
 
             #region Set boundries

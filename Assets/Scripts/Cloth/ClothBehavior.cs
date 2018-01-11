@@ -13,18 +13,20 @@ public class ClothBehavior : MonoBehaviour
 
     public Blane.SpringDamper _springDamper = new Blane.SpringDamper();
 
+    public GameObject particleObject;
+    //public GameObject anchorObject;
+
     public List<ParticleUpdate> particleList = new List<ParticleUpdate>();
 
-    public GameObject particleObject;
-    public GameObject anchorObject;
+    public ParticleUpdate pu;
 
     public List<GameObject> particleObjectList = new List<GameObject>();
-    public List<GameObject> anchorObjectList = new List<GameObject>();
+    //public List<GameObject> anchorObjectList = new List<GameObject>();
 
     void Start()
     {
         CreateClothParticles();
-        #region Getting Cloth POS from another class and setting that to gameobject
+        #region Not Used
         //_cloth.Initialize();
         //_cloth.SetParticlePosition();
 
@@ -48,14 +50,8 @@ public class ClothBehavior : MonoBehaviour
         SetDampers();
     }
 
-
     void Update()
     {
-        for (int u = 0; u < particleList.Count; u++)
-        {
-
-        }
-
         #region Not used
         //for (int u = 0; u < 16; u++)
         //{
@@ -64,21 +60,26 @@ public class ClothBehavior : MonoBehaviour
         #endregion
     }
 
+    // Similar to AgenFactory in ways
     void CreateClothParticles()
     {
-        int xPosCounter = 0;
-        int yPosCounter = 4;
+        int xPosCounter = 0;    // Counts Up and resets at 4
+        int yPosCounter = 4;    // Counts Down from 4
 
         for (int m = 0; m < 16; m++)
         {
-            particleObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            particleObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);  // Set to sphere, effectivelly works as visual representation for a "point"
+            pu = particleObject.AddComponent<ParticleUpdate>(); // Use of function to change Particles Position
+
             particleObject.transform.position = new Vector3(xPosCounter * 10, yPosCounter * 10, 0);
-            var pu = particleObject.AddComponent<ParticleUpdate>();
+
+            Destroy(particleObject.GetComponent<Rigidbody>());  // To make sure Unity's rigidbodies aren't used for the particles
+            Destroy(particleObject.GetComponent<SphereCollider>());  // Destroys the Sphere Collider attached to the Sphere
+
             particleList.Add(pu);
             particleObjectList.Add(particleObject);
-            //pu.currentParticle.Initilize(particleList[m].transform.position);
-            Debug.Log("2nd Particle Position Check: " + particleObjectList[m].transform.position.ToString());
 
+            Debug.Log("Initial Particle Placement Check: " + particleObjectList[m].transform.position.ToString());
             xPosCounter++;
 
             if (xPosCounter >= 4)
@@ -89,6 +90,8 @@ public class ClothBehavior : MonoBehaviour
         }
     }
 
+    //  Not Main Concern Currentlly
+    //  Two loops are set to bring the contents of the particleObjectList and compare their position values to see if dampers are to be set for both particles
     void SetDampers()
     {
         for (int i = 0; i < particleObjectList.Count; i++)
