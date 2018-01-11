@@ -4,42 +4,50 @@ using UnityEngine;
 
 namespace Blane
 {
-    
-    // Good
     [System.Serializable]
     public class Particle
     {
         public float mass;
-
         public Vector3 velocity;
         public Vector3 acceleration;
         public Vector3 position;
         public Vector3 force;
+        public Vector3 size;
+        //public Vector3 startingPos
 
-        public void Initilize()
+        // everything except position and mass is set to be a zeroed out
+        public void Initilize(Vector3 POS)
         {
             mass = 1;
+            size = new Vector3(1, 1, 1);
             velocity = new Vector3(0, 0, 0);
             acceleration = new Vector3(0, 0, 0);
-            position = new Vector3(0, 0, 0);
-            force = new Vector3(0, -9.81f, 0);
+            position = POS;
+            force = new Vector3(0, 0, 0);
+            //startingPos = POS;
         }
 
+        // Updates Particle Position based on velocity and deltaTime
         public Vector3 Update(float deltaTime)
         {
             acceleration = force / mass;
-            velocity = velocity + acceleration * deltaTime;
-            position = position + velocity * deltaTime;
-
+            velocity += acceleration * deltaTime;
+            position += velocity * deltaTime;
+            force = new Vector3(0, 0, 0);
             return position;
         }
 
-        public Vector3 AddForce(Vector3 newForce)
+        // Adds Force to Particle, Function returned a vector3 at one point
+        public void AddForce(Vector3 newForce)
         {
-            return force = force + newForce;
+            force += newForce;
         }
 
-
+        public Vector3 Update_Position(Vector3 newPos)
+        {
+            position = newPos;
+            return position;
+        }
     }
 
 }

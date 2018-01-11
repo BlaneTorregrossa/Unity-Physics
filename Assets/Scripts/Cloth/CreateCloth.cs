@@ -5,57 +5,58 @@ using UnityEngine;
 
 namespace Blane
 {
+
+    //  NO LONGER USED, BETTER TO CREATE CLOTH IN THE MONOBEHAVIOUR CLASS
     public class CreateCloth
     {
-        public Blane.Particle _particle = new Blane.Particle();
-        public Blane.Particle _anchor = new Blane.Particle();
-        public Blane.SpringDamper _springDamper = new Blane.SpringDamper();
+        public SpringDamper _springDamper = new SpringDamper();
 
-        public List<Blane.Particle> particleList = new List<Blane.Particle>();
-        public List<Blane.Particle> anchorList = new List<Blane.Particle>();
-
-        private Vector3 prevPosition = new Vector3(0, 0, 0);
+        public List<Particle> particleList = new List<Particle>();
+        public List<Particle> anchorList = new List<Particle>();
 
         public void Initialize()
         {
-            _particle.Initilize();
-            _anchor.Initilize();
-            _springDamper.Initialize(1, 10, 1, _particle, _anchor);
-
-            for (int i = 0; i < 25; i++)
+            for (int t = 0; t < 16; t++)
             {
-                particleList.Add(_springDamper.p1);
-                anchorList.Add(_springDamper.p2);
+                particleList.Add(new Particle());
+
+                //if (t >= 1)
+                anchorList.Add(particleList[t/* - 1*/]);
+                DamperCall(particleList[t], anchorList[t]);
             }
+
         }
 
+        // Sets Starting Positions of each particle
         public void SetParticlePosition()
         {
             int counter = 0;
-            for (int j = 0; j < 25; j++)
+            Vector3 SetPosition = new Vector3(0, 0, 0);
+            for (int j = 0; j < 16; j++)
             {
-                particleList[j].position.y += 3;
-                prevPosition = particleList[j].position;
-                if (counter == 5)
+                if (counter == 4)
                 {
-                    particleList[j].position.y = 0;
-                    particleList[j].position.x = particleList[j].position.x + 3;
+                    SetPosition = new Vector3(0, SetPosition.y, 0); //  x = 0, z = 0
+                    SetPosition += new Vector3(0, 10, 0);    //  +10 y
+                    particleList[j].Initilize(SetPosition);
+                    anchorList[j].Initilize(SetPosition);
                     counter = 0;
                 }
-                counter++;
-                Debug.Log("1st Particle Position Check: " + particleList[j].position.ToString());     // To keep track of set positions of particles
+
+                if (counter != 4)
+                {
+                    particleList[j].Initilize(SetPosition);
+                    anchorList[j].Initilize(SetPosition);
+                    SetPosition += new Vector3(10, 0, 0);    // +10 x
+                    counter += 1;
+                }
             }
         }
 
-        public void Update_Position()
+        public void DamperCall(Particle _particle, Particle _anchor)
         {
-            for (int u = 0; u < 25; u++)
-            {
-                particleList[u].Update(Time.deltaTime);
-                anchorList[u].Update(Time.deltaTime);
-
-                _springDamper.CalculateForce();
-            }
+            _springDamper.Initialize(1, 10, 1, _particle, _anchor);
         }
+
     }
 }

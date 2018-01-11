@@ -149,9 +149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bb6285a6959ddc42bddb6efba97d3a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  kCohesion: 0
-  kDisruption: 0
-  kAllignment: 0
+  agentCreateNum: 0
   factoryInstance: {fileID: 105921309}
 --- !u!114 &105921309
 MonoBehaviour:
@@ -164,6 +162,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7297d870392de124cab7029567d68605, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  agent: {fileID: 0}
   agents: []
   behaviors: []
   objects: []
@@ -228,7 +227,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 25
+  orthographic size: 100
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2

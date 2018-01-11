@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Blane
 {
-    
+    // Has no real purpose
     public class AgentBehavior : MonoBehaviour
     {
         protected Agent agent;

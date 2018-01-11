@@ -21,6 +21,7 @@ namespace Blane
             p2 = particleAlt;
         }
 
+        // Calculates Force to apply to particle and the anchor
         public void CalculateForce()
         {
             // Step 1
@@ -39,7 +40,7 @@ namespace Blane
             Vector3 f1 = fsd * e;
             Vector3 f2 = -f1;
 
-            // Added force, In this case "gravity"
+            // Added force
             p1.AddForce(f1);
             p2.AddForce(f2);
         }

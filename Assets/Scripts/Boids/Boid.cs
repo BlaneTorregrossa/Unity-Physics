@@ -6,28 +6,28 @@ namespace Blane
 {
     public interface IMovable
     {
-        bool Add_Force(float magnitude, Vector3 Direction);
+        bool Add_Force(float magnitude, Vector3 Direction); 
         Vector3 Update_Agent(float deltaTime);
     }
 
 
+    // Inherits from both Agent Class and the above interface
     public class Boid : Agent, IMovable
     {
-        //public Agent Leader;
 
         public void Initialize(Transform t)
         {
             mass = 1;
             max_speed = 50;
 
-            velocity = new Vector3(Random.Range(-1, 1), Random.Range(-1, 1), 0);
+            velocity = new Vector3(0, 0, 0);
             acceleration = new Vector3(0, 0, 0);
             force = new Vector3(0, 0, 0);
 
             position = t.position;
         }
 
-        // *
+        // ***
         bool IMovable.Add_Force(float magnitude, Vector3 Direction)
         {
             bool check;
