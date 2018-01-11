@@ -4,8 +4,7 @@ using UnityEngine;
 
 namespace Blane
 {
-
-    // Good
+    // Good As far as I can tell. Never properly tested
     [System.Serializable]
     public class SpringDamper
     {
@@ -44,10 +43,5 @@ namespace Blane
             p1.AddForce(f1);
             p2.AddForce(f2);
         }
-
-
-
-
-
     }
 }
