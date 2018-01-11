@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Blane
 {
-    public class BoidBehavior : AgentBehavior
+    public class BoidBehavior : MonoBehaviour
     {
 
         IMovable movable;

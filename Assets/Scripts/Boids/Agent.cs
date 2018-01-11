@@ -10,6 +10,7 @@ namespace Blane
 
         [SerializeField] public float mass;
         [SerializeField] public float max_speed;
+        [SerializeField] public bool isLeader;
 
         [SerializeField] public Vector3 velocity;
         [SerializeField] public Vector3 acceleration;
