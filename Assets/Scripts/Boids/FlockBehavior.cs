@@ -6,6 +6,7 @@ namespace Blane
 {
     public class FlockBehavior : MonoBehaviour
     {
+        public Transform Camera;
         public int agentCreateNum;  // Used for attempt to fix cohesion and Allignment
         public AgentFactory factoryInstance;
 
@@ -23,6 +24,7 @@ namespace Blane
         {
             boids = factoryInstance.GetBoids();     // Get Created boids
             MoveToNewPosition();    // For position Update
+            FollowFlock();
         }
 
         // Rule 1
@@ -166,10 +168,29 @@ namespace Blane
                 else
                     VelocityLimit(b);   // Without this it's hard to keep visual track of the boids
 
-                b.position = b.position + b.velocity;   // Position update with the new velocity
+                if (qtv == 3 || qtv != 3)
+                    b.position = b.position + b.velocity;   // Position update with the new velocity
                 //Debug.Log(b.position.ToString());
             }
 
+        }
+
+        // For Janky Camera to follow the "leader" of flock
+        public void FollowFlock()
+        {
+            for (int f = 0; f < boids.Count; f++)
+            {
+                if (boids[f].isLeader == true && Input.GetKey(KeyCode.C))
+                {
+                    Camera.position = boids[f].position + new Vector3(0, 50, 0);
+                    Camera.rotation = new Quaternion(1, 0, 0, 1);
+                }
+                else if (!Input.GetKey(KeyCode.C))
+                {
+                    Camera.position = new Vector3(0, 0, 0);
+                    Camera.rotation = new Quaternion(0, 0, 0, 0);
+                }
+            }
         }
 
 

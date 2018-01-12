@@ -4,16 +4,15 @@ using UnityEngine;
 
 namespace Blane
 {
-    public class Particle
+    public class ClothParticle
     {
         [SerializeField] public float mass;
         [SerializeField] public Vector3 velocity;
         [SerializeField] public Vector3 acceleration;
         [SerializeField] public Vector3 position;
         [SerializeField] public Vector3 force;
-        [SerializeField] public Vector3 size;    // Not part of original design
+        [SerializeField] public Vector3 size;
 
-        // everything except position and mass is set to be a zeroed out
         void Start()
         {
             mass = 1;
@@ -27,9 +26,9 @@ namespace Blane
         public Vector3 Update(float deltaTime)
         {
             acceleration = force / mass;
+            force = new Vector3(0, 0, 0);
             velocity += acceleration * deltaTime;
             position += velocity * deltaTime;
-            force = new Vector3(0, 0, 0);
             return position;
         }
 
@@ -39,14 +38,13 @@ namespace Blane
             force += newForce;
         }
 
-        // ***
+        
         public Vector3 Update_Position(Vector3 newPos)
         {
             position = newPos;
             return position;
         }
 
-        // ***
         public Vector3 Adjust_Size(int scale)
         {
             size = new Vector3(scale, scale, scale);
