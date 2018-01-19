@@ -4,15 +4,13 @@ using UnityEngine;
 
 namespace Blane
 {
-
-    // Good
-    [System.Serializable]
+    // Entire Class based off of notes for spring Dampers
     public class SpringDamper
     {
-        public Particle p1, p2;
+        public ClothParticle p1, p2;
         public float Ks, Kd, Lo;
 
-        public void Initialize(float springConst, float restLength, float dampingFactor, Particle particle, Particle particleAlt)
+        public void Initialize(float springConst, float restLength, float dampingFactor, ClothParticle particle, ClothParticle particleAlt)
         {
             Ks = springConst;
             Lo = restLength;
@@ -21,13 +19,13 @@ namespace Blane
             p2 = particleAlt;
         }
 
-        // Calculates Force to apply to particle and the anchor
+        // Calculates Force to apply to particle and the anchor of said particle
         public void CalculateForce()
         {
             // Step 1
-            Vector3 particlePosDelta = p2.position - p1.position;
+            Vector3 particlePosDelta = p2.position - p1.position;   // was e
             float l = Vector3.Magnitude(particlePosDelta);
-            Vector3 e = particlePosDelta / l;
+            Vector3 e = particlePosDelta / l;   // was e*
 
             // Step 2
             Vector3 v1 = p1.velocity;
@@ -44,10 +42,5 @@ namespace Blane
             p1.AddForce(f1);
             p2.AddForce(f2);
         }
-
-
-
-
-
     }
 }

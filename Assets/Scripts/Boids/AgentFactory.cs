@@ -25,7 +25,7 @@ namespace Blane
                 var b = ScriptableObject.CreateInstance<Boid>();    // Create a new Boid
                 var bb = go.AddComponent<BoidBehavior>();   // Add boid behaviour as a component to the gameobject
 
-                go.transform.position = new Vector3(Random.Range(-5, 5), Random.Range(-5, 5), 0);       // Set Random Starting position for the boid
+                go.transform.position = new Vector3(Random.Range(-5, 5), Random.Range(-5, 5), Random.Range(-5, 5));   // Set Random Starting position for the boid
                 b.Initialize(go.transform);     // Initialize boud values with a given object transform
                 bb.SetMovable(b);
 

@@ -6,57 +6,39 @@ using UnityEngine;
 namespace Blane
 {
 
-    //  NO LONGER USED, BETTER TO CREATE CLOTH IN THE MONOBEHAVIOUR CLASS
     public class CreateCloth
     {
-        public SpringDamper _springDamper = new SpringDamper();
 
-        public List<Particle> particleList = new List<Particle>();
-        public List<Particle> anchorList = new List<Particle>();
+        public ClothParticle p = new ClothParticle();
+        public List<ClothParticle> _particleList = new List<ClothParticle>();
 
-        public void Initialize()
+        void Start()
         {
-            for (int t = 0; t < 16; t++)
-            {
-                particleList.Add(new Particle());
+            CreateClothParticles();
+        }
 
-                //if (t >= 1)
-                anchorList.Add(particleList[t/* - 1*/]);
-                DamperCall(particleList[t], anchorList[t]);
+        // Sets up particles for particle GameObjects for the cloth
+        public void CreateClothParticles()
+        {
+            int xPosCounter = 0;
+            int yPosCounter = 4;
+
+            // Particle position is set based on counters then are added to the list, The counter then changes
+            for (int n = 0; n < 16; n++)
+            {
+                p.position = new Vector3(xPosCounter * 10, yPosCounter * 10, 0);    // Set Position for each particle
+                _particleList.Add(p);   // Add Particle to the list
+                xPosCounter++; // x position for the next particle
+                
+                if (xPosCounter >= 4) // Change x and y position for the next particle
+                {
+                    yPosCounter--;
+                    xPosCounter = 0;
+                }
+
+                Debug.Log("Particle Position Placement Check: " + _particleList[n].position.ToString());    // To help confirm that the Particle GameObjects are in the same position as the Particle Objects
             }
 
         }
-
-        // Sets Starting Positions of each particle
-        public void SetParticlePosition()
-        {
-            int counter = 0;
-            Vector3 SetPosition = new Vector3(0, 0, 0);
-            for (int j = 0; j < 16; j++)
-            {
-                if (counter == 4)
-                {
-                    SetPosition = new Vector3(0, SetPosition.y, 0); //  x = 0, z = 0
-                    SetPosition += new Vector3(0, 10, 0);    //  +10 y
-                    particleList[j].Initilize(SetPosition);
-                    anchorList[j].Initilize(SetPosition);
-                    counter = 0;
-                }
-
-                if (counter != 4)
-                {
-                    particleList[j].Initilize(SetPosition);
-                    anchorList[j].Initilize(SetPosition);
-                    SetPosition += new Vector3(10, 0, 0);    // +10 x
-                    counter += 1;
-                }
-            }
-        }
-
-        public void DamperCall(Particle _particle, Particle _anchor)
-        {
-            _springDamper.Initialize(1, 10, 1, _particle, _anchor);
-        }
-
     }
 }
