@@ -10,7 +10,8 @@ namespace Blane
         public ClothParticle p1, p2;
         public float Ks, Kd, Lo;
 
-        public void Initialize(float springConst, float restLength, float dampingFactor, ClothParticle particle, ClothParticle particleAlt)
+        // For setting up dampers
+        public SpringDamper (float springConst, float restLength, float dampingFactor, ClothParticle particle, ClothParticle particleAlt)
         {
             Ks = springConst;
             Lo = restLength;

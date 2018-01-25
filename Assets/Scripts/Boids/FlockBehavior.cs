@@ -24,7 +24,7 @@ namespace Blane
         {
             boids = factoryInstance.GetBoids();     // Get Created boids
             MoveToNewPosition();    // For position Update
-            FollowFlock();
+            FollowFlock();  // for janky camera
         }
 
         // Rule 1
